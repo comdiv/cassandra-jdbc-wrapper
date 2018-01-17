@@ -4,7 +4,7 @@
   <groupId>com.github.adejanovski</groupId>
   <artifactId>cassandra-jdbc-wrapper</artifactId>
   <name>Cassandra JDBC Wrapper</name>
-  <version>2.1.9</version>
+  <version>3.11.99</version>
   <description>JDBC wrapper for the DataStax CQL Java Driver.</description>
   <url>https://github.com/adejanovski/cassandra-jdbc-wrapper</url>
   <inceptionYear>2015</inceptionYear>
@@ -55,7 +55,7 @@
             <dependency>
               <groupId>org.apache.apache.resources</groupId>
               <artifactId>apache-source-release-assembly-descriptor</artifactId>
-              <version>1.0.3</version>
+              <version>1.0.6</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -79,6 +79,7 @@
           <artifactId>maven-gpg-plugin</artifactId>
           <version>1.4</version>
           <configuration>
+            <skip>${sign.skip}</skip>
             <passphrase>${gpg.passphrase}</passphrase>
             <useAgent>${gpg.useagent}</useAgent>
           </configuration>
@@ -181,8 +182,8 @@
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -238,7 +239,7 @@
                     <include>**/*UnitTest.class</include>
                   </includes>
                   <systemPropertyVariables>
-                    <cassandra.version>2.1.9</cassandra.version>
+                    <cassandra.version>3.11.1</cassandra.version>
                     <ipprefix>${ipprefix}</ipprefix>
                     <com.datastax.driver.NEW_NODE_DELAY_SECONDS>60</com.datastax.driver.NEW_NODE_DELAY_SECONDS>
                   </systemPropertyVariables>
@@ -283,27 +284,6 @@
           <plugin>
             <artifactId>maven-javadoc-plugin</artifactId>
             <version>2.10.3</version>
-          </plugin>
-          <plugin>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <version>1.4</version>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-                <configuration>
-                  <passphrase>${gpg.passphrase}</passphrase>
-                  <useAgent>true</useAgent>
-                </configuration>
-              </execution>
-            </executions>
-            <configuration>
-              <passphrase>${gpg.passphrase}</passphrase>
-              <useAgent>true</useAgent>
-            </configuration>
           </plugin>
         </plugins>
       </build>
@@ -358,18 +338,6 @@
               </execution>
             </executions>
           </plugin>
-          <plugin>
-            <artifactId>maven-gpg-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>sign-artifacts</id>
-                <phase>verify</phase>
-                <goals>
-                  <goal>sign</goal>
-                </goals>
-              </execution>
-            </executions>
-          </plugin>
         </plugins>
       </build>
       <properties>
@@ -405,7 +373,7 @@
     <dependency>
       <groupId>com.datastax.cassandra</groupId>
       <artifactId>cassandra-driver-core</artifactId>
-      <version>2.1.9</version>
+      <version>3.3.2</version>
       <type>test-jar</type>
       <scope>test</scope>
     </dependency>
@@ -438,14 +406,29 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <distributionManagement>
+    <repository>
+      <id>nexus</id>
+      <name>Nexus Releases</name>
+      <url>http://nexus.ssc.int/repository/spectrum/</url>
+    </repository>
+    <snapshotRepository>
+      <id>nexus</id>
+      <name>Nexus Snapshot</name>
+      <url>http://nexus.ssc.int/repository/spectrum/</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <sourceReleaseAssemblyDescriptor>source-release</sourceReleaseAssemblyDescriptor>
-    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
     <cassandra.host>localhost</cassandra.host>
+    <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
+    <nosign>false</nosign>
+    <sign.skip>true</sign.skip>
+    <datastax.java.driver.version>3.3.2</datastax.java.driver.version>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <gpg.useagent>true</gpg.useagent>
-    <cassandra.version>2.1.9</cassandra.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <gpg.useagent>true</gpg.useagent>
+    <cassandra.version>3.11.1</cassandra.version>
   </properties>
 </project>
 
